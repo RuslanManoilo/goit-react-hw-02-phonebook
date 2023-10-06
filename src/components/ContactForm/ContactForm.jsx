@@ -1,0 +1,69 @@
+import { Component } from "react";
+import { nanoid } from "nanoid";
+import { Form, FormBtn, FormInput, FormLabel } from "./ContactForm.styled";
+
+
+class ContactForm extends Component {
+    state = {
+        name: '',
+        number: ''
+    }
+
+    onChangeForm = ({target}) => {
+        this.setState({[target.name]: target.value});
+    };
+    
+    getName = (evt) => {
+        evt.preventDefault();
+        const isExist = this.props.contacts.some(contact => contact.name.toLowerCase() === this.state.name.toLowerCase());
+
+        if (isExist) {
+            alert(`${this.state.name} is already in contacts.`);
+            return;
+        } else {
+            this.props.getContact({
+                id: nanoid(),
+                name: this.state.name,
+                number: this.state.number
+            });
+        };
+
+        this.setState({
+            name: '',
+            number: ''
+        });
+    };
+    
+    render() {
+        return (
+            <Form 
+            onSubmit={this.getName}
+            >
+                <FormLabel htmlFor="contactFormInput">Name</FormLabel>
+                <FormInput 
+                    name="name" 
+                    id="contactFormInput" 
+                    type="text" 
+                    required 
+                    onChange={this.onChangeForm}
+                    value={this.state.name}
+                />
+
+                <FormLabel htmlFor="contactFormNumber">Number</FormLabel>
+                <FormInput 
+                    name="number"
+                    id="contactFormNumber" 
+                    type="tel" 
+                    required
+                    onChange={this.onChangeForm}
+                    value={this.state.number}
+                />
+    
+                <FormBtn>Add contact</FormBtn>
+            </Form>
+        )
+    }
+}
+
+
+export default ContactForm;
