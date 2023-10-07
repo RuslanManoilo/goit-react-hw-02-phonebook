@@ -11,14 +11,25 @@ class App extends Component {
     filter: ''
   };
 
-  getContact = (contact) => {
-    this.setState((prevState) => ({
-      contacts: [...prevState.contacts, contact]
-    }));
+  getContact = (contactObj) => {
+    const isExist = this.state.contacts.some(contact => contact.name.toLowerCase() === contactObj.name.toLowerCase());
+
+    if (isExist) {
+        alert(`${contactObj.name} is already in contacts.`);
+        return;
+    } else {
+      this.setState((prevState) => ({
+        contacts: [...prevState.contacts, contactObj]
+      }));
+    };
   };
 
   onFilterChange = ({target}) => {
     this.setState({[target.name]: target.value.toLowerCase()})
+  };
+
+  filterContacts = () => {
+    return this.state.contacts.filter(contact => contact.name.toLowerCase().includes(this.state.filter));
   };
 
   deleteContact = (id) => {
@@ -31,13 +42,12 @@ class App extends Component {
     return (
       <Container>
         <Title>Phonebook</Title>
-        <ContactForm getContact = { this.getContact } contacts = { this.state.contacts } />
+        <ContactForm getContact = { this.getContact } />
 
         <SecondTitle>Contacts</SecondTitle>
         <Filter onFilterChange = { this.onFilterChange } />
         <ContactList 
-          contacts = { this.state.contacts } 
-          filterValue = { this.state.filter } 
+          contacts = { this.filterContacts() } 
           deleteContact = { this.deleteContact }
         />
       </Container>

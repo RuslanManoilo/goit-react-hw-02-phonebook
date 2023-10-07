@@ -15,18 +15,12 @@ class ContactForm extends Component {
     
     getName = (evt) => {
         evt.preventDefault();
-        const isExist = this.props.contacts.some(contact => contact.name.toLowerCase() === this.state.name.toLowerCase());
-
-        if (isExist) {
-            alert(`${this.state.name} is already in contacts.`);
-            return;
-        } else {
-            this.props.getContact({
-                id: nanoid(),
-                name: this.state.name,
-                number: this.state.number
-            });
-        };
+      
+        this.props.getContact({
+            id: nanoid(),
+            name: this.state.name,
+            number: this.state.number
+        });
 
         this.setState({
             name: '',

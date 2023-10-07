@@ -1,9 +1,9 @@
 import { ItemBtn, ItemText, ListItem } from "./ContactList.styled";
 
-const ContactList = ({contacts, filterValue, deleteContact}) => {
+const ContactList = ({contacts, deleteContact}) => {
     return (
         <ul>
-          {(contacts.filter(contact => contact.name.toLowerCase().includes(filterValue))).map(filteredContact => (
+          {contacts.map(filteredContact => (
             <ListItem key={filteredContact.id}>
               <ItemText>
                 {filteredContact.name}: {filteredContact.number}
